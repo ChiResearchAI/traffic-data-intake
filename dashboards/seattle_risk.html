@@ -13,9 +13,11 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#0f172a}
 .brand small{font-weight:400;opacity:.8}
 .title{font-size:15px;font-weight:600;opacity:.95}
 .sol{font-size:12px;opacity:.8}
-.disc{background:#fef3c7;color:#92400e;font-size:12.5px;padding:7px 20px;border-bottom:1px solid #f0d488}
-.disc b{color:#7c2d12}
-.wrap{display:flex;height:calc(100vh - 78px)}
+.disc{background:#f8fafc;color:#64748b;font-size:11px;line-height:1.5;padding:6px 20px;border-top:1px solid #e2e8f0;flex:0 0 auto}
+
+body{display:flex;flex-direction:column;height:100vh;margin:0}
+.appbar{flex:0 0 auto}
+.wrap{display:flex;flex:1 1 auto;min-height:0}
 #map{flex:1;min-width:0}
 .side{width:380px;background:#f1f5f9;overflow-y:auto;padding:14px;border-left:1px solid #cbd5e1}
 .kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -42,7 +44,6 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a;color:#0f172a}
   <div class="title">Seattle Traffic Telematics & Safety Risk Dashboard</div>
   <div class="sol">WA DES Solicitation 10225 — Capability Demonstration</div>
 </div>
-<div class="disc"><b>DEMONSTRATION:</b> Base layer = live <b>SDOT open data</b> (553 traffic cameras, 253 detectors). Risk overlay = <b>synthetic/simulated telematics</b> events generated for capability demonstration only. Production deployment ingests live licensed cell-phone & connected-vehicle feeds via our anticipated data vendor.</div>
 <div class="wrap">
   <div id="map"></div>
   <div class="side">
@@ -124,4 +125,5 @@ document.getElementById('insights').innerHTML=
  `<div class="ins">Risk events peak at the <b>AM (7–9h) and PM (16–18h)</b> commute windows — prioritize enforcement and adaptive signal timing in these hours.</div>`+
  `<div class="ins"><b>${t[1][0]}</b> and <b>${t[2][0]}</b> show elevated harsh-braking clusters near detector locations — candidates for <b>geometric/safety review</b>.</div>`+
  `<div class="ins">Avg speeding is <b>${k.avg_over} mph over</b> the posted limit; ${k.pct_speeding}% of sampled trips flagged — supports a <b>data-driven Vision Zero</b> targeting plan.</div>`;
-</script></body></html>
+</script><div class="disc">Base: SDOT open data, 553 cameras / 253 detectors. Event layers: generated datasets.</div>
+</body></html>

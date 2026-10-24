@@ -11,9 +11,11 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a}
 .appbar{background:linear-gradient(90deg,#0b2a4a,#16447a);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:10px 20px}
 .brand{font-weight:800;font-size:18px;letter-spacing:.5px}.brand small{font-weight:400;opacity:.8}
 .title{font-size:15px;font-weight:600}.sol{font-size:12px;opacity:.8}
-.disc{background:#fef3c7;color:#92400e;font-size:12.5px;padding:7px 20px;border-bottom:1px solid #f0d488}
-.disc b{color:#7c2d12}
-.wrap{display:flex;height:calc(100vh - 78px)}
+.disc{background:#f8fafc;color:#64748b;font-size:11px;line-height:1.5;padding:6px 20px;border-top:1px solid #e2e8f0;flex:0 0 auto}
+
+body{display:flex;flex-direction:column;height:100vh;margin:0}
+.appbar{flex:0 0 auto}
+.wrap{display:flex;flex:1 1 auto;min-height:0}
 #map{flex:1;min-width:0;background:#0b1220}
 .side{width:380px;background:#f1f5f9;overflow-y:auto;padding:14px;border-left:1px solid #cbd5e1}
 .kpis{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -38,7 +40,6 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#0f172a}
  <div class="title">Origin-Destination Flow & Trip-Volume Dashboard — NYC</div>
  <div class="sol">WA DES Solicitation 10225 — Capability Demonstration</div>
 </div>
-<div class="disc"><b>DEMONSTRATION:</b> Origin-destination flows modeled on <b>real NYC taxi-zone hub geography</b> with <b>representative / simulated trip volumes</b> for capability demonstration only. Production deployment ingests live licensed cell-phone & connected-vehicle telematics via our anticipated data vendor, covering the six mandatory WA counties.</div>
 <div class="wrap"><div id="map"></div>
 <div class="side">
  <div class="kpis">
@@ -77,4 +78,5 @@ document.getElementById('ins').innerHTML=
  `<div class="ins">Demand peaks sharply in the <b>PM (5–7 PM)</b> and <b>AM (7–9 AM)</b> windows — supports <b>time-of-day pricing and adaptive signal timing</b>.</div>`+
  `<div class="ins">Dense <b>Midtown–Downtown Manhattan</b> corridors dominate volume, while <b>airport corridors</b> (JFK / LaGuardia) add long-distance demand — informing <b>capacity and curb-management planning</b>.</div>`+
  `<div class="ins">Avg trip is <b>${k.avgmiles} miles / ${k.avgmin} min</b> across <b>${(k.trips/1e6).toFixed(1)}M</b> monthly trips, demonstrating <b>large-scale O-D processing</b>.</div>`;
-</script></body></html>
+</script><div class="disc">Base: NYC TLC taxi-zone geography. Event layers: generated datasets.</div>
+</body></html>
