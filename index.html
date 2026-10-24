@@ -286,6 +286,7 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding-top:15px;font-si
   </div>
   <div class="bar" id="bar" hidden><i></i></div>
   <div id="checkout"></div>
+  <div id="remote" hidden></div>
 </div>
 
 
@@ -496,10 +497,12 @@ function hash(f){
   (function step(){
     if(off>=f.size){
       bar.hidden=true;
-      note.textContent="SHA-256  "+h.hex();
+      LOCALHASH=h.hex(); CURFILE=f;
+      note.textContent="SHA-256  "+LOCALHASH;
       var p=document.createElement("p"); p.className="note";
       p.textContent="Computed over the whole file in this browser. ChiResearch records this value on receipt, so the City can prove the file processed is byte-for-byte the file sent, and the source recording in immutable storage cannot be altered unnoticed.";
       $("#checkout").appendChild(p);
+      offerRemote();
       return;
     }
     var end=Math.min(off+CH,f.size);
@@ -510,6 +513,96 @@ function hash(f){
     }).catch(function(){ bar.hidden=true; note.textContent="The file could not be read to the end, so no hash is reported."; });
   })();
 }
+
+// ---- remote storage round trip: upload, retrieve, re-hash, compare ----
+// The local digest above proves nothing about transfer on its own. This step sends the file to
+// remote storage, reads it back from the store, hashes the returned bytes independently and
+// compares. A match proves the stored copy is byte-for-byte the file selected.
+var LOCALHASH=null, CURFILE=null, ASSETS=null, LASTID=null;
+var ASSET_CAP = 20*1024*1024; // platform ceiling for a single stored object
+
+function el(tag, cls, txt){ var e=document.createElement(tag); if(cls) e.className=cls; if(txt!=null) e.textContent=txt; return e; }
+
+function offerRemote(){
+  var box=$("#remote"); box.innerHTML=""; box.hidden=false;
+  if(!ASSETS){
+    box.appendChild(el("p","note","Remote storage is not reachable from this copy of the page, so the "
+      +"round-trip check is unavailable here. The conformance check and the SHA-256 above ran in full and "
+      +"are unaffected."));
+    return;
+  }
+  if(CURFILE.size>ASSET_CAP){
+    box.appendChild(el("p","note","This file is "+fmtSize(CURFILE.size)+", above the "
+      +fmtSize(ASSET_CAP)+" ceiling for a single stored object on this platform, so the round-trip check "
+      +"is not run on it. Production intake for recordings of this size is the resumable transfer "
+      +"described in the Proposal, which is specified and not yet built."));
+    return;
+  }
+  var b=el("button",null,"Upload to remote storage and verify");
+  b.id="upbtn"; box.appendChild(b);
+  box.appendChild(el("p","note","Sends this file to remote storage, reads it back from the store and "
+    +"hashes the returned bytes independently. Nothing is inferred from the upload succeeding."));
+  b.addEventListener("click", function(){ b.disabled=true; roundTrip(b); });
+}
+
+async function roundTrip(btn){
+  var box=$("#remote");
+  var log=el("div"); box.appendChild(log);
+  var step=function(t){ var p=el("p","hash",t); log.appendChild(p); return p; };
+  var s1=step("Uploading "+CURFILE.name+" ("+fmtSize(CURFILE.size)+")…");
+  var up;
+  try{
+    up = await ASSETS.upload(CURFILE);
+  }catch(e){
+    s1.textContent="Upload refused: "+((e&&(e.code||e.message))||"unknown");
+    log.appendChild(el("p","note","Nothing was stored. The local checks above are unaffected."));
+    btn.disabled=false; return;
+  }
+  LASTID = up && up.id;
+  s1.textContent="Stored  id "+up.id+"  ·  "+fmtSize(up.sizeBytes||CURFILE.size)+"  ·  "+(up.contentType||CURFILE.type||"");
+  var s2=step("Reading the stored copy back…");
+  var buf;
+  try{
+    var res = await fetch(up.url, {cache:"no-store"});
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    buf = await res.arrayBuffer();
+  }catch(e){
+    s2.textContent="The stored copy could not be read back: "+(e&&e.message||"unknown");
+    btn.disabled=false; return;
+  }
+  s2.textContent="Returned  "+fmtSize(buf.byteLength)+"  from  "+up.url;
+  var s3=step("Hashing the returned bytes…");
+  var h=sha256.create(), u8=new Uint8Array(buf), CHSZ=8*1024*1024;
+  for(var o=0;o<u8.length;o+=CHSZ) h.update(u8.subarray(o,Math.min(o+CHSZ,u8.length)));
+  var remote=h.hex();
+  s3.textContent="SHA-256 of returned bytes  "+remote;
+
+  var ok = (remote===LOCALHASH) && (buf.byteLength===CURFILE.size);
+  var verdict=el("p");
+  verdict.style.marginTop="12px";
+  var pill=el("span","pill "+(ok?"ok":"no"), ok?"Round trip verified" : "Hash mismatch");
+  verdict.appendChild(pill);
+  log.appendChild(verdict);
+  log.appendChild(el("p","note", ok
+    ? "The digest of the bytes returned from storage equals the digest computed locally before upload, "
+      +"and the byte counts agree. The stored copy is byte-for-byte the file selected."
+    : "The returned bytes do not match the file selected. A recording that fails this check is not "
+      +"processed; corrected footage is requested instead."));
+
+  var del=el("button","ghost","Remove this test upload from storage");
+  del.style.marginTop="10px";
+  del.addEventListener("click", async function(){
+    del.disabled=true;
+    try{ await ASSETS.delete(LASTID); del.textContent="Removed from storage"; }
+    catch(e){ del.textContent="Could not remove it"; del.disabled=false; }
+  });
+  log.appendChild(del);
+}
+
+(async function(){
+  try{ ASSETS = await (window.claude && window.claude.use ? window.claude.use("assets") : null); }
+  catch(e){ ASSETS=null; }
+})();
 
 // ---- persistence: platform database when present, this browser otherwise ----
 var LS_KEY = "chiresearch.intake.counts.v1";
