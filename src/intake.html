@@ -79,6 +79,8 @@ td.m{font-family:var(--mono);font-variant-numeric:tabular-nums}
 .attached{display:flex;flex-wrap:wrap;align-items:baseline;gap:5px 10px;margin-top:11px;padding:10px 12px;background:var(--surface-2);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:3px}
 .attached .akey{font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
 .attached .aname{font-family:var(--mono);font-size:.84rem;font-weight:500;color:var(--fg);word-break:break-all;min-width:0}
+.dashlink{display:inline-block;font-size:.88rem;font-weight:500;color:var(--fg);background:var(--surface-2);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:3px;padding:10px 14px;text-decoration:none}
+.dashlink:hover{border-color:var(--accent)}
 .draft{font-family:var(--mono);font-size:.7rem;font-weight:600;letter-spacing:.04em;color:var(--accent);white-space:nowrap}
 .attached .ameta{font-family:var(--mono);font-size:.76rem;color:var(--fg-faint);font-variant-numeric:tabular-nums}
 footer{border-top:1px solid var(--line);margin-top:30px;padding-top:15px;font-size:.8rem;color:var(--fg-faint)}
@@ -164,6 +166,30 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding-top:15px;font-si
   velocity field, so no speed product is shown and none is inferred.</p>
 </div>
 
+
+<div class="panel">
+  <div class="phead">
+    <div><h2>Reporting and dashboard demonstrations</h2><p class="clause">Built June 2026 for Washington State DES Solicitation 10225</p></div>
+    <span class="pill na">Public geography, simulated events</span>
+  </div>
+  <p class="sub">Two interactive dashboards built to demonstrate analytical reporting: a traffic risk and
+  safety view over Seattle, and an origin&ndash;destination flow view over New York. Each opens in a new tab
+  and carries its own data banner at the top of the page.</p>
+  <p class="note"><strong>What the data is.</strong> The base layers are public: Seattle SDOT open data, 553
+  traffic cameras and 253 detectors, and New York TLC taxi-zone geography. The event overlays &mdash; the
+  speeding and harsh-braking events, the trip volumes and every figure derived from them &mdash; are
+  <strong>simulated, generated for the demonstration</strong>. No number on either page is an observed
+  traffic finding, and none is offered here as one.</p>
+  <div class="row">
+    <a class="dashlink" href="dashboards/seattle_risk.html" target="_blank" rel="noopener">Seattle traffic risk and safety dashboard</a>
+    <a class="dashlink" href="dashboards/nyc_origin_destination.html" target="_blank" rel="noopener">New York origin&ndash;destination dashboard</a>
+  </div>
+  <p class="note"><strong>What they evidence for this Contract.</strong> Interactive reporting over real
+  road geography: layered maps, time-of-day distributions, ranked corridor panels, KPI summaries and written
+  recommendations drawn from the data shown. That is the reporting half of RFP &sect;3.6 and the Appendix A
+  &sect;15 safety-reporting discipline. They are not video processing, and they are not a completed study for
+  any client.</p>
+</div>
 
 <div class="panel">
   <div class="phead">
