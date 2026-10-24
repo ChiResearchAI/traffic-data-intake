@@ -21,6 +21,19 @@ ChiResearch Technologies, LLC bids the processing branch of the scope stated at 
   color are not measurable in a browser; both are reported as such and confirmed during
   processing rather than asserted here.
 
+## Demonstration and completed work
+
+Below the intake panels the page carries three further sections:
+
+- **Processing demonstration.** The annotated sixty-second run, with the measured output beside it:
+  110 northbound, 108 southbound, 218 total against the engine's reported 221, and the twenty-one trucks
+  whose FHWA class the engine left unresolved. The run is labeled as internal validation on licensed
+  source footage — not a client engagement and not a Charlotte location.
+- **What the City receives for a count.** The report, raw data, exchange formats, verification log and
+  database upload, each against the clause that requires it.
+- **Other completed work.** The Washington DES award, BabyDay and the two academic engagements, each
+  carrying a label saying what it is and what it is not.
+
 ## What is specified and not built
 
 Authenticated, resumable multi-gigabyte transfer into immutable storage. Until that is in

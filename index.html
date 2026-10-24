@@ -180,10 +180,122 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding-top:15px;font-si
   with its Form 7 estimate and its 72-hour processing deadline.</p>
 </div>
 
+<div class="panel">
+  <div class="phead">
+    <div><h2>Processing demonstration</h2><p class="clause">Detection, classification and verification on a divided-highway mid-block segment</p></div>
+    <span class="pill na">Internal validation</span>
+  </div>
+  <p class="sub">A sixty-second segment processed by ChiResearch in October 2026 on licensed source
+  footage, 1920 &times; 1080 at 30 fps. This is an internal validation run, not a client engagement and not a
+  Charlotte location. It is shown because the figures below are measured output, and because the error it
+  surfaced is the kind of error verification exists to catch.</p>
+
+  <video id="demovid" controls preload="metadata" poster="media/demo_counting.jpg"
+         style="width:100%;max-width:100%;border:1px solid var(--line);border-radius:4px;margin-top:15px;background:#000">
+    <source src="media/demo_counting.mp4" type="video/mp4">
+  </video>
+  <p class="note" id="vidfall" hidden>The annotated video is not carried on this host. The measured
+  results below are unchanged.</p>
+  <p class="note">The counters burned into the top-left of the frame are a running tally as the clip
+  plays, not the final figures; they reach the totals below at the sixty-second mark. Vehicles are boxed
+  green as they are detected and the heavy goods vehicle is boxed and labeled separately.</p>
+
+  <div class="quote">
+    <div class="fig"><div class="k">Northbound</div><div class="v">110</div></div>
+    <div class="fig"><div class="k">Southbound</div><div class="v">108</div></div>
+    <div class="fig"><div class="k">Total vehicles</div><div class="v">218</div></div>
+    <div class="fig"><div class="k">Engine reported</div><div class="v" style="color:var(--fail)">221</div></div>
+  </div>
+
+  <div class="scroll"><table style="margin-top:18px">
+    <thead><tr><th>Class as detected</th><th>NB</th><th>SB</th><th>Disposition</th></tr></thead>
+    <tbody>
+      <tr><td>Car</td><td class="m">100</td><td class="m">91</td><td style="color:var(--fg-dim)">Counted</td></tr>
+      <tr><td>Truck</td><td class="m">9</td><td class="m">12</td><td style="color:var(--fg-dim)">Counted; FHWA class <strong>unresolved</strong>, reported as such rather than allocated</td></tr>
+      <tr><td>Bus</td><td class="m">1</td><td class="m">2</td><td style="color:var(--fg-dim)">Counted</td></tr>
+      <tr><td>Motorcycle</td><td class="m">&mdash;</td><td class="m">3</td><td style="color:var(--fg-dim)">Counted as vehicles</td></tr>
+      <tr><td>Person</td><td class="m">&mdash;</td><td class="m">3</td><td style="color:var(--fg-dim)">Co-occur with the three motorcycles and are most likely their riders. Reported as a range of <strong>0 to 3</strong>, never summed into a pedestrian total</td></tr>
+    </tbody>
+  </table></div>
+
+  <p class="note"><strong>What verification caught.</strong> The engine placed the three
+  <span style="font-family:var(--mono)">person</span> detections inside its own &ldquo;Total Vehicles&rdquo;
+  figure <em>and</em> reported them again as non-motorized, giving 221 where the true vehicle count is 218.
+  Its heavy-vehicle share divided 24 heavy vehicles by the inflated 221 for 10.9 percent; over the true 218
+  the figure is 11.0 percent &mdash; the ratio survives the error the volume does not. A second pass with the
+  detection zones redrawn on identical footage moved northbound from 107 to 110 and southbound from 107 to
+  108, and added three northbound and one southbound that hand review had not flagged.</p>
+
+  <p class="note"><strong>The Appendix A &sect;4.I.ii output row</strong>, in the column order the City
+  specifies:</p>
+  <p class="hash" style="margin-top:6px">07:00,0,108,0,0,0,0,0,110,0,0,0,0,218</p>
+</div>
+
+<div class="panel">
+  <div class="phead">
+    <div><h2>What the City receives for a count</h2><p class="clause">RFP &sect;3.6 &middot; Appendix A &sect;3 &middot; &sect;4.I.ii &middot; &sect;1.G</p></div>
+  </div>
+  <div class="scroll"><table>
+    <thead><tr><th>Deliverable</th><th>Contents</th><th>Clause</th></tr></thead>
+    <tbody>
+      <tr><td>Report, one PDF</td><td>Cover sheet carrying all twenty-five site data items A&ndash;Y with the source of each, approach photographs taken from the City&rsquo;s own video, map, and the count tables</td><td class="m">&sect;3.A&ndash;Y</td></tr>
+      <tr><td>Raw data</td><td>Fifteen-minute intervals by movement and class, in the SBL&ndash;EBR column order the City specifies</td><td class="m">&sect;4.I.ii</td></tr>
+      <tr><td>Exchange formats</td><td>Excel, legacy XLS, CSV, PRN and UTDF, each produced from the same run</td><td class="m">&sect;3.6.iii</td></tr>
+      <tr><td>Verification log</td><td>Which intervals were sampled, the seed that selected them, the hand count, the automated count, and the deviation against the &sect;1.G tolerance band</td><td class="m">&sect;4.H</td></tr>
+      <tr><td>Database upload</td><td>Loaded to the City&rsquo;s traffic and crash software after City QA/QC</td><td class="m">&sect;3.6.i</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">A seven-page specimen of this report, built from the run above, accompanies the Proposal.
+  It states on its face what it does not contain: the source feed carries class and count fields and no
+  velocity field, so no speed product is shown and none is inferred.</p>
+</div>
+
+<div class="panel">
+  <div class="phead">
+    <div><h2>Other completed work</h2><p class="clause">Each labeled as what it is</p></div>
+  </div>
+  <div class="scroll"><table>
+    <thead><tr><th>Work</th><th>What it is</th><th>How it is verified</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>Washington State DES Contract 10225</strong></td>
+        <td><em>Traffic Data Analysis Services.</em> Competitively solicited statewide contract: thirteen
+        responses, eight awards. ChiResearch holds a Main award, effective 1 October 2026. Co-awardees
+        include Iteris, Inc. and Streetlight Data, Inc. Scope is driving-risk analysis from vehicle
+        telematics. <span class="pill na">Award in performance, not delivered task orders</span></td>
+        <td>The State publishes the awarded vendor list, the response count and the signed contract at
+        <span class="url">apps.des.wa.gov<wbr>/DESContracts<wbr>/Home<wbr>/ContractSummary<wbr>/10225</span></td>
+      </tr>
+      <tr>
+        <td><strong>BabyDay</strong></td>
+        <td>Clinical application built for a labor-and-delivery nurse and operated in daily use.
+        <span class="pill na">ChiResearch product, not a client engagement</span></td>
+        <td>Apple lists it as <em>BabyDay &mdash; Birth Care Tracker</em>, seller Wilfred Ikejiofor, first
+        version 23 June 2025, maintained through version 4 on 18 August 2025</td>
+      </tr>
+      <tr>
+        <td><strong>Computer-vision pipeline</strong><br>Colorado State University Global</td>
+        <td>Detection and anonymization pipeline in Python and OpenCV, with precision and recall computed
+        and reported on a defined evaluation set &mdash; the discipline this scope requires: state the
+        detection method, then measure it. <span class="pill na">Academic engagement, April&ndash;June 2026</span></td>
+        <td>Dr. Dong Nguyen, Professor of Computer Science</td>
+      </tr>
+      <tr>
+        <td><strong>Natural-language processing</strong><br>Colorado State University Global</td>
+        <td>Text classification and evaluation work, performed January&ndash;March 2025 by the Principal
+        under the ChiResearchAI banner, before ChiResearch Technologies, LLC was organized on 28 February
+        2026. <span class="pill na">Predates the entity; not LLC past performance</span></td>
+        <td>Dr. Bingdong Li</td>
+      </tr>
+    </tbody>
+  </table></div>
+</div>
+
 <footer>
   Unit prices are the firm prices submitted on Form 7 for RFP 269-2027-027 and are effective for the
   Initial Term and Renewal Terms. Lines Form 7 marks NOT BID are shown as such: ChiResearch bids the
-  processing branch of the RFP §3.1 scope and does not price field data collection.
+  processing branch of the RFP §3.1 scope and does not price field data collection. Counts on this page are
+  measured output from the run shown, not projections.
 </footer>
 </div>
 
