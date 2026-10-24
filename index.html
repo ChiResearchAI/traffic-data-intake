@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Count request, Form 7 cost estimate and Appendix A 2.H footage conformance checking for City of Charlotte task orders under RFP 269-2027-027.">
+<meta name="robots" content="noindex">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;font:14px system-ui,-apple-system,sans-serif}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<title>Traffic Data Intake</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.min.js"></script>
+<style>
+/* Layout: single column of stacked work panels; institutional operations console, not a marketing page. */
+:root{
+  --bg:#f4f5f7; --surface:#ffffff; --surface-2:#eceef1; --line:#d3d8de;
+  --fg:#1b2027; --fg-dim:#5b6472; --fg-faint:#8a93a0;
+  --accent:#9a5b14; --accent-soft:#f6e8d6;
+  --pass:#14665a; --pass-soft:#dcefe9; --fail:#8f2f20; --fail-soft:#f7e2de;
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#14181d; --surface:#1c2228; --surface-2:#242c34; --line:#333d47;
+  --fg:#e7eaee; --fg-dim:#a3adb9; --fg-faint:#76818e;
+  --accent:#e2a862; --accent-soft:#3a2d1c;
+  --pass:#6fcbb6; --pass-soft:#13302b; --fail:#e39488; --fail-soft:#361d19;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14181d; --surface:#1c2228; --surface-2:#242c34; --line:#333d47;
+  --fg:#e7eaee; --fg-dim:#a3adb9; --fg-faint:#76818e;
+  --accent:#e2a862; --accent-soft:#3a2d1c;
+  --pass:#6fcbb6; --pass-soft:#13302b; --fail:#e39488; --fail-soft:#361d19;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.5;margin:0}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px}
+h1{font-size:1.45rem;font-weight:600;letter-spacing:-.01em;margin:0;text-wrap:balance}
+h2{font-size:1.02rem;font-weight:600;margin:0 0 2px;text-wrap:balance}
+p{margin:0}
+.sub{color:var(--fg-dim);font-size:.9rem;margin-top:5px}
+.eyebrow{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:var(--accent)}
+.clause{font-family:var(--mono);font-size:.72rem;color:var(--fg-faint)}
+
+header{border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:20px}
+.status{background:var(--accent-soft);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:3px;padding:13px 15px;margin-bottom:24px}
+.status p{font-size:.86rem;color:var(--fg-dim);margin-top:6px}
+.status strong{color:var(--fg)}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:19px;margin-bottom:18px}
+.phead{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;justify-content:space-between;margin-bottom:16px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:13px}
+label{display:block;font-size:.78rem;font-weight:500;color:var(--fg-dim);margin-bottom:5px}
+select,input[type=text],input[type=number]{width:100%;min-width:0;font-family:var(--sans);font-size:.9rem;color:var(--fg);background:var(--surface-2);border:1px solid var(--line);border-radius:3px;padding:8px 9px}
+select:focus-visible,input:focus-visible,button:focus-visible,.filebtn:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+
+button{font-family:var(--sans);font-size:.88rem;font-weight:500;color:var(--surface);background:var(--fg);border:1px solid var(--fg);border-radius:3px;padding:9px 15px;cursor:pointer}
+button:hover{opacity:.88}
+button[disabled]{opacity:.45;cursor:default}
+button.ghost{background:transparent;color:var(--fg);border-color:var(--line)}
+.filebtn{display:inline-block;font-size:.88rem;font-weight:500;background:transparent;color:var(--fg);border:1px dashed var(--line);border-radius:3px;padding:14px 16px;cursor:pointer;width:100%;text-align:center}
+.row{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-top:15px}
+
+.quote{margin-top:16px;border-top:1px solid var(--line);padding-top:15px;display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px}
+.fig{min-width:0}
+.fig .k{font-size:.72rem;color:var(--fg-faint);letter-spacing:.03em;text-transform:uppercase}
+.fig .v{font-family:var(--mono);font-size:1.3rem;font-weight:600;font-variant-numeric:tabular-nums;margin-top:3px;word-break:break-word}
+.note{font-size:.82rem;color:var(--fg-dim);margin-top:13px}
+
+.pill{display:inline-block;font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:3px 7px;border-radius:2px;white-space:nowrap}
+.pill.ok{background:var(--pass-soft);color:var(--pass)}
+.pill.no{background:var(--fail-soft);color:var(--fail)}
+.pill.na{background:var(--surface-2);color:var(--fg-faint)}
+
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th{text-align:left;font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg-faint);border-bottom:1px solid var(--line);padding:0 9px 7px 0}
+td{border-bottom:1px solid var(--line);padding:9px 9px 9px 0;vertical-align:top}
+td.m{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+.empty{color:var(--fg-faint);font-size:.86rem;padding:16px 0;text-align:center}
+
+.bar{height:3px;background:var(--surface-2);border-radius:2px;overflow:hidden;margin-top:11px}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .18s}
+.hash{font-family:var(--mono);font-size:.74rem;word-break:break-all;color:var(--fg-dim);margin-top:9px}
+footer{border-top:1px solid var(--line);margin-top:30px;padding-top:15px;font-size:.8rem;color:var(--fg-faint)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">ChiResearch Technologies, LLC</p>
+  <h1>Traffic Data Intake</h1>
+  <p class="sub">Count request, Form 7 estimate and footage conformance checking for City of Charlotte
+  task orders under RFP 269-2027-027. Prices are the firm unit prices submitted on Form 7.</p>
+</header>
+
+<div class="status">
+  <span class="pill ok">Operational</span>
+  <span class="pill na">Specified, not built</span>
+  <p><strong>Operational on this page:</strong> count-type selection, Form 7 cost estimate, count-number
+  assignment, the 72-hour processing clock, and the Appendix A §2.H footage conformance check with SHA-256
+  file hashing — the conformance check runs in your browser on a local file, so a 30 GB recording is
+  validated without being uploaded anywhere.
+  <strong>Specified and not yet built:</strong> authenticated resumable multi-gigabyte transfer into
+  immutable storage. Until that is in service, video is received by online file transfer service
+  (Appendix A §15.C.iv and §16.E.iii name that medium as preferred) and task-order coordination runs by
+  email, which Addendum 1, Item 6 states is acceptable.</p>
+</div>
+
+<div class="panel">
+  <div class="phead">
+    <div><h2>Request a count</h2><p class="clause">Appendix A §1.E.ii · §2.B · §1.D</p></div>
+  </div>
+  <div class="grid">
+    <div>
+      <label for="ctype">Count type</label>
+      <select id="ctype"></select>
+    </div>
+    <div>
+      <label for="dur">Duration</label>
+      <select id="dur"></select>
+    </div>
+    <div>
+      <label for="cams">Cameras / approaches</label>
+      <input id="cams" type="number" min="1" max="12" value="4">
+    </div>
+    <div>
+      <label for="loc">Location</label>
+      <input id="loc" type="text" placeholder="Intersection or segment" value="">
+    </div>
+  </div>
+  <div class="row">
+    <label for="optb" style="margin:0;display:flex;gap:7px;align-items:center;font-size:.85rem">
+      <input id="optb" type="checkbox" style="width:auto;min-width:0">
+      Appendix A §4.G.ii traditional classes instead of Option A
+    </label>
+  </div>
+  <div class="quote" id="quote"></div>
+  <p class="note" id="qnote"></p>
+  <div class="row">
+    <button id="submit">Assign count number</button>
+    <button class="ghost" id="clear">Reset</button>
+  </div>
+</div>
+
+<div class="panel">
+  <div class="phead">
+    <div><h2>Check footage before sending</h2><p class="clause">Appendix A §2.H minimum specification</p></div>
+  </div>
+  <p class="sub">Select a recording. It is read locally and never leaves this device. The check reports
+  resolution, duration, file size and average bitrate against §2.H, and computes a SHA-256 hash so the
+  file received can be proved identical to the file sent.</p>
+  <div style="margin-top:14px">
+    <input id="file" type="file" accept="video/*" hidden>
+    <label class="filebtn" for="file" tabindex="0" id="filelabel">Choose a video file</label>
+  </div>
+  <div class="bar" id="bar" hidden><i></i></div>
+  <div id="checkout"></div>
+</div>
+
+<div class="panel">
+  <div class="phead">
+    <div><h2>Count register</h2><p class="clause">§2.B — every submittal labeled with its count number</p></div>
+    <span class="clause" id="regcount"></span>
+  </div>
+  <div class="scroll"><table id="regtable" hidden>
+    <thead><tr><th>Count no.</th><th>Type</th><th>Duration</th><th>Location</th><th>Estimate</th><th>Due</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+  <p class="empty" id="regempty">No counts requested yet. Assigning a count number above records it here
+  with its Form 7 estimate and its 72-hour processing deadline.</p>
+</div>
+
+<footer>
+  Unit prices are the firm prices submitted on Form 7 for RFP 269-2027-027 and are effective for the
+  Initial Term and Renewal Terms. Lines Form 7 marks NOT BID are shown as such: ChiResearch bids the
+  processing branch of the RFP §3.1 scope and does not price field data collection.
+</footer>
+</div>
+
+<script>
+// ---- Form 7, as submitted. Prices are firm; null means NOT BID. ----
+var F7 = [
+ {id:"tmc", sec:"Intersections", label:"Intersection Turning Movement Count", proc:true, optb:true,
+  hourly:27, durs:[["13 Hours",351],["16 Hours",415],["24 Hours",590]]},
+ {id:"rsm", sec:"Intersections", label:"Small Roundabout (< 150' diameter)", proc:true, optb:true,
+  hourly:31, durs:[["13 Hours",403],["16 Hours",475],["24 Hours",680]]},
+ {id:"rlg", sec:"Intersections", label:"Large Roundabout (> 150' diameter)", proc:true, optb:true,
+  hourly:35, durs:[["13 Hours",455],["16 Hours",540],["24 Hours",765]]},
+ {id:"mid", sec:"Roadway Segments", label:"Mid-Block Count (speed / volume / class)", proc:true, optb:false,
+  hourly:6, durs:[["24 Hours",144],["48 Hours",215],["7 Days",495]]},
+ {id:"gap", sec:"Roadway Segments", label:"Vehicle Gap", proc:true, optb:false,
+  hourly:37, durs:[["Per hour ordered",null]]},
+ {id:"ped", sec:"Pedestrian / Bicycle", label:"Pedestrian / Bike Path Count (350' corridor)", proc:true, optb:false,
+  hourly:25, durs:[["13 Hours",325],["16 Hours",385],["24 Hours",545]]},
+ {id:"iss", sec:"Not bid", label:"Intersection Safety Study", proc:false, optb:false,
+  hourly:null, durs:[["13 Hours",null],["16 Hours",null],["24 Hours",null]]},
+ {id:"occ", sec:"Not bid", label:"Vehicle Occupancy / Curbside Occupancy", proc:false, optb:false,
+  hourly:null, durs:[["As ordered",null]]},
+ {id:"nmt", sec:"Not bid", label:"Volume / Class Non-Motorist", proc:false, optb:false,
+  hourly:null, durs:[["24 Hours",null],["7 Days",null],["30 Days",null]]}
+];
+var OPTB = 95; // Appendix A 4.G Option B classification surcharge, Form 7 Section 5
+var SPEC = {w:720, h:480, fps:30, kbps:1500}; // Appendix A 2.H minimum
+
+var $ = function(s){return document.querySelector(s)};
+var ctype=$("#ctype"), dur=$("#dur"), cams=$("#cams"), loc=$("#loc"), optb=$("#optb");
+var db=null, uid=null, rows=[];
+
+(function fill(){
+  var seen={};
+  F7.forEach(function(c){
+    if(!seen[c.sec]){ var g=document.createElement("optgroup"); g.label=c.sec; g.dataset.sec=c.sec; ctype.appendChild(g); seen[c.sec]=g; }
+    var o=document.createElement("option"); o.value=c.id; o.textContent=c.label; seen[c.sec].appendChild(o);
+  });
+  ctype.value="tmc"; fillDur(); quote();
+})();
+
+function cur(){ for(var i=0;i<F7.length;i++) if(F7[i].id===ctype.value) return F7[i]; }
+function fillDur(){
+  var c=cur(); dur.innerHTML="";
+  c.durs.forEach(function(d,i){ var o=document.createElement("option"); o.value=String(i); o.textContent=d[0]; dur.appendChild(o); });
+  optb.disabled=!c.optb; if(!c.optb) optb.checked=false;
+}
+function money(n){ return "$"+n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+function priced(){
+  var c=cur(), d=c.durs[Number(dur.value)||0];
+  if(!c.proc) return {bid:false, why:"Form 7 marks this line NOT BID. Addendum 1, Item 12 requires pricing on it to include field collection, and Item 7 answered “No.” to processing-only pricing in its place. ChiResearch bids processing only."};
+  var base = d[1];
+  if(base===null && c.hourly!==null){
+    return {bid:true, base:c.hourly, unit:"per hour ordered", hourlyOnly:true,
+            total:c.hourly + (optb.checked?OPTB:0), sur:optb.checked?OPTB:0};
+  }
+  return {bid:true, base:base, unit:d[0], total:base + (optb.checked?OPTB:0), sur:optb.checked?OPTB:0};
+}
+
+function quote(){
+  var c=cur(), p=priced(), q=$("#quote"), n=$("#qnote");
+  if(!p.bid){
+    q.innerHTML='<div class="fig"><div class="k">Form 7 status</div><div class="v"><span class="pill no">Not bid</span></div></div>';
+    n.textContent=p.why; $("#submit").disabled=true; return;
+  }
+  $("#submit").disabled=false;
+  var nc=Math.max(1,Math.min(12,Number(cams.value)||1));
+  var hrs = /Hours/.test(p.unit) ? parseInt(p.unit,10) : (/7 Days/.test(p.unit)?168:1);
+  var vidhrs = hrs*nc;
+  q.innerHTML =
+    '<div class="fig"><div class="k">Form 7 estimate</div><div class="v">'+money(p.total)+'</div></div>'+
+    '<div class="fig"><div class="k">Unit</div><div class="v" style="font-size:.95rem">'+p.unit+'</div></div>'+
+    '<div class="fig"><div class="k">Video-hours</div><div class="v">'+vidhrs+'</div></div>'+
+    '<div class="fig"><div class="k">§4.H sample</div><div class="v">'+(c.id==="tmc"?(vidhrs*0.12).toFixed(1):(vidhrs*0.03).toFixed(1))+' h</div></div>';
+  var bits=[];
+  bits.push(p.hourlyOnly
+    ? "Addendum 1, Item 9: the one-hour rate is multiplied by the Appendix A duration of the study ordered."
+    : "Firm unit price as submitted on Form 7.");
+  if(p.sur) bits.push("Includes the "+money(OPTB)+" Appendix A §4.G.ii classification surcharge entered under Form 7 Section 5.");
+  bits.push(c.id==="tmc"
+    ? "Appendix A §4.H requires 12% of each hour manually counted; the figure shown is that sample across "+nc+(nc===1?" camera":" cameras")+"."
+    : "Verification sampling at 3% of each hour, recorded per count; §4.H’s 12% regime governs turning movement count video only.");
+  bits.push("Processing within 72 hours of receipt of conforming video, per Appendix A §1.D.");
+  n.textContent = bits.join(" ");
+}
+
+["change","input"].forEach(function(ev){
+  ctype.addEventListener(ev,function(){fillDur();quote()});
+  dur.addEventListener(ev,quote); cams.addEventListener(ev,quote); optb.addEventListener(ev,quote);
+});
+
+// ---- count register, persisted ----
+function due(){ var d=new Date(Date.now()+72*3600*1000);
+  return d.toLocaleDateString("en-US",{month:"short",day:"numeric"})+" "+d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"}); }
+function render(){
+  var t=$("#regtable"), b=t.querySelector("tbody"), e=$("#regempty");
+  b.innerHTML="";
+  if(!rows.length){ t.hidden=true; e.hidden=false; $("#regcount").textContent=""; return; }
+  t.hidden=false; e.hidden=true;
+  $("#regcount").textContent=rows.length+(rows.length===1?" count":" counts");
+  rows.slice().sort(function(a,b2){return (b2.seq||0)-(a.seq||0)}).forEach(function(r){
+    var tr=document.createElement("tr");
+    [["m",r.no],["",r.type],["",r.dur],["",r.loc||"—"],["m",money(r.total)],["m",r.due]].forEach(function(c){
+      var td=document.createElement("td"); if(c[0]) td.className=c[0]; td.textContent=c[1]; tr.appendChild(td);
+    });
+    b.appendChild(tr);
+  });
+}
+render();
+
+$("#submit").addEventListener("click", async function(){
+  var c=cur(), p=priced(); if(!p.bid) return;
+  var seq=rows.reduce(function(m,r){return Math.max(m,r.seq||0)},0)+1;
+  var rec={seq:seq, no:"CLT-26-"+String(seq).padStart(4,"0"), type:c.label,
+           dur:p.unit, loc:loc.value.trim(), cams:Number(cams.value)||1,
+           total:p.total, optb:!!p.sur, due:due(), at:new Date().toISOString()};
+  rows.push(rec); render();
+  if(!db) localSave();
+  if(db){ try{ await db.collection("counts").doc(rec.no).set(rec); }catch(e){} }
+});
+$("#clear").addEventListener("click",function(){ loc.value=""; cams.value=4; optb.checked=false; ctype.value="tmc"; fillDur(); quote(); });
+$("#filelabel").addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); $("#file").click(); } });
+
+// ---- Appendix A 2.H conformance check, local file, nothing uploaded ----
+$("#file").addEventListener("change", function(){
+  var f=this.files && this.files[0]; if(!f) return;
+  var out=$("#checkout"); out.innerHTML="";
+  var v=document.createElement("video"); v.preload="metadata";
+  var url=URL.createObjectURL(f);
+  v.onloadedmetadata=function(){
+    var W=v.videoWidth, H=v.videoHeight, D=v.duration;
+    URL.revokeObjectURL(url);
+    var kbps = (D&&isFinite(D)&&D>0) ? (f.size*8/D)/1000 : null;
+    var checks=[
+      ["Container", /mp4|m4v/i.test(f.type)||/\.mp4$/i.test(f.name) ? "ok":"no",
+       f.type||f.name.split(".").pop().toUpperCase(), "§2.H requires mp4"],
+      ["Resolution", (W>=SPEC.w&&H>=SPEC.h)?"ok":"no", W&&H?W+" × "+H:"unreadable", "minimum 720 × 480"],
+      ["Duration", (D&&isFinite(D))?"ok":"na", (D&&isFinite(D))?fmtDur(D):"unreadable", "recorded length"],
+      ["File size","na", fmtSize(f.size), "as selected"],
+      ["Average bitrate", kbps===null?"na":(kbps>=SPEC.kbps?"ok":"no"),
+       kbps===null?"unreadable":Math.round(kbps)+" kbps", "minimum 1.5 Mbps"],
+      ["Frame rate","na","not measurable in the browser","§2.H requires 30 fps; verified during processing"],
+      ["Color","na","not measurable in the browser","§2.H requires color"]
+    ];
+    var fails=checks.filter(function(c){return c[1]==="no"}).length;
+    var h='<div class="row" style="margin-top:16px"><span class="pill '+(fails?"no":"ok")+'">'+
+      (fails? fails+(fails===1?" item":" items")+" below §2.H" : "Meets the §2.H minimum on every measurable item")+
+      '</span></div><div class="scroll"><table style="margin-top:12px"><thead><tr><th>Item</th><th>Measured</th><th>Requirement</th></tr></thead><tbody>';
+    checks.forEach(function(c){
+      h+='<tr><td>'+c[0]+' <span class="pill '+c[1]+'">'+(c[1]==="ok"?"pass":c[1]==="no"?"below":"n/a")+'</span></td>'+
+         '<td class="m">'+c[2]+'</td><td style="color:var(--fg-dim)">'+c[3]+'</td></tr>';
+    });
+    h+='</tbody></table></div>';
+    h+='<p class="note">'+(fails
+      ? "Footage below the §2.H minimum is reported to the City at intake with the shortfall identified, before processing begins, so corrected footage can be requested rather than a deficient count delivered."
+      : "On these measurements the recording is processable as received. Frame rate and color are confirmed during processing and recorded in the verification log.")+'</p>';
+    out.innerHTML=h;
+    hash(f);
+  };
+  v.onerror=function(){
+    URL.revokeObjectURL(url);
+    out.innerHTML='<p class="note">This file’s metadata could not be read in the browser, which usually means the container is not one the browser decodes. Size is '+fmtSize(f.size)+'. The hash below still identifies the file exactly.</p>';
+    hash(f);
+  };
+  v.src=url;
+});
+function fmtSize(b){ var u=["B","KB","MB","GB","TB"],i=0; while(b>=1024&&i<u.length-1){b/=1024;i++} return (i>1?b.toFixed(2):Math.round(b))+" "+u[i]; }
+function fmtDur(s){ s=Math.round(s); var h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;
+  return (h?h+"h ":"")+(h||m?m+"m ":"")+x+"s"; }
+
+function hash(f){
+  var bar=$("#bar"), fill=bar.querySelector("i"), CH=8*1024*1024, off=0;
+  if(typeof sha256==="undefined"||!sha256.create){ return; }
+  var h=sha256.create(); bar.hidden=false; fill.style.width="0%";
+  var note=document.createElement("p"); note.className="hash"; note.textContent="Computing SHA-256 over the full file…";
+  $("#checkout").appendChild(note);
+  (function step(){
+    if(off>=f.size){
+      bar.hidden=true;
+      note.textContent="SHA-256  "+h.hex();
+      var p=document.createElement("p"); p.className="note";
+      p.textContent="Computed over the whole file in this browser. ChiResearch records this value on receipt, so the City can prove the file processed is byte-for-byte the file sent, and the source recording in immutable storage cannot be altered unnoticed.";
+      $("#checkout").appendChild(p);
+      return;
+    }
+    var end=Math.min(off+CH,f.size);
+    f.slice(off,end).arrayBuffer().then(function(buf){
+      h.update(new Uint8Array(buf)); off=end;
+      fill.style.width=(off/f.size*100).toFixed(1)+"%";
+      setTimeout(step,0);
+    }).catch(function(){ bar.hidden=true; note.textContent="The file could not be read to the end, so no hash is reported."; });
+  })();
+}
+
+// ---- persistence: platform database when present, this browser otherwise ----
+var LS_KEY = "chiresearch.intake.counts.v1";
+function localLoad(){
+  try{ var raw = window.localStorage.getItem(LS_KEY); return raw ? JSON.parse(raw) : []; }
+  catch(e){ return []; }
+}
+function localSave(){
+  try{ window.localStorage.setItem(LS_KEY, JSON.stringify(rows)); }catch(e){}
+}
+function markLocalOnly(){
+  var e = document.getElementById("regempty");
+  if(e) e.textContent = "No counts requested yet. Assigning a count number above records it here with "
+    + "its Form 7 estimate and its 72-hour processing deadline. On this host the register is kept in this "
+    + "browser only; it is not shared between devices.";
+}
+(async function(){
+  var ok = false;
+  try{
+    if(window.claude && window.claude.use){
+      var u = await window.claude.use("user");
+      uid = u ? await u.id().catch(function(){return null}) : null;
+      db = await window.claude.use("db");
+      if(db){
+        ok = true;
+        var snap = await db.collection("counts").get();
+        var got=[]; snap.forEach ? snap.forEach(function(d){got.push(d.data?d.data():d)})
+                                 : (got = snap.docs ? snap.docs.map(function(d){return d.data()}) : []);
+        if(got.length){ rows=got; render(); }
+        db.collection("counts").onSnapshot(function(s){
+          var r=[]; s.forEach ? s.forEach(function(d){r.push(d.data?d.data():d)})
+                              : (r = s.docs ? s.docs.map(function(d){return d.data()}) : []);
+          rows=r; render();
+        });
+      }
+    }
+  }catch(e){ ok = false; }
+  if(!ok){
+    db = null;
+    markLocalOnly();
+    rows = localLoad();
+    render();
+  }
+})();
+</script>
+
+</body>
+</html>
