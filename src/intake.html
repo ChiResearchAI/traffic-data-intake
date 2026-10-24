@@ -79,6 +79,7 @@ td.m{font-family:var(--mono);font-variant-numeric:tabular-nums}
 .attached{display:flex;flex-wrap:wrap;align-items:baseline;gap:5px 10px;margin-top:11px;padding:10px 12px;background:var(--surface-2);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:3px}
 .attached .akey{font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
 .attached .aname{font-family:var(--mono);font-size:.84rem;font-weight:500;color:var(--fg);word-break:break-all;min-width:0}
+.draft{font-family:var(--mono);font-size:.7rem;font-weight:600;letter-spacing:.04em;color:var(--accent);white-space:nowrap}
 .attached .ameta{font-family:var(--mono);font-size:.76rem;color:var(--fg-faint);font-variant-numeric:tabular-nums}
 footer{border-top:1px solid var(--line);margin-top:30px;padding-top:15px;font-size:.8rem;color:var(--fg-faint)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -211,7 +212,7 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding-top:15px;font-si
   <span class="pill ok">Operational</span>
   <span class="pill na">Specified, not built</span>
   <p><strong>About the intake tooling below.</strong> <strong>Operational:</strong> count-type selection, Form 7 cost estimate, count-number
-  assignment, the 72-hour processing clock, and the Appendix A §2.H footage conformance check with SHA-256
+  assignment, and the Appendix A §2.H footage conformance check with SHA-256
   file hashing — the conformance check runs in your browser on a local file, so a 30 GB recording is
   validated without being uploaded anywhere.
   <strong>Specified and not yet built:</strong> authenticated resumable multi-gigabyte transfer into
@@ -280,12 +281,13 @@ footer{border-top:1px solid var(--line);margin-top:30px;padding-top:15px;font-si
     <div><h2>Count register</h2><p class="clause">§2.B — every submittal labeled with its count number</p></div>
     <span class="clause" id="regcount"></span>
   </div>
+  <p class="sub">Assigning a count number records the request and prices it. <strong>It does not transmit anything to ChiResearch and is not a task order.</strong> The Appendix A §1.D seventy-two hour clock runs from receipt of conforming video, not from drafting here, so the turnaround column states the commitment rather than a date already running.</p>
   <div class="scroll"><table id="regtable" hidden>
-    <thead><tr><th>Count no.</th><th>Type</th><th>Duration</th><th>Location</th><th>Estimate</th><th>Due</th></tr></thead>
+    <thead><tr><th>Count no.</th><th>Status</th><th>Type</th><th>Duration</th><th>Location</th><th>Estimate</th><th>Turnaround</th></tr></thead>
     <tbody></tbody>
   </table></div>
-  <p class="empty" id="regempty">No counts requested yet. Assigning a count number above records it here
-  with its Form 7 estimate and its 72-hour processing deadline.</p>
+  <p class="empty" id="regempty">No counts drafted yet. Assigning a count number records the request here
+  with its Form 7 estimate.</p>
 </div>
 
 
@@ -397,7 +399,7 @@ function render(){
   $("#regcount").textContent=rows.length+(rows.length===1?" count":" counts");
   rows.slice().sort(function(a,b2){return (b2.seq||0)-(a.seq||0)}).forEach(function(r){
     var tr=document.createElement("tr");
-    [["m",r.no],["",r.type],["",r.dur],["",r.loc||"—"],["m",money(r.total)],["m",r.due]].forEach(function(c){
+    [["m",r.no],["draft","Draft — not sent"],["",r.type],["",r.dur],["",r.loc||"—"],["m",money(r.total)],["m","72h from receipt"]].forEach(function(c){
       var td=document.createElement("td"); if(c[0]) td.className=c[0]; td.textContent=c[1]; tr.appendChild(td);
     });
     b.appendChild(tr);
